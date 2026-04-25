@@ -50,18 +50,17 @@ export function Airplane() {
 export function Train() {
   return (
     <group>
-      <mesh castShadow>
+      <mesh>
         <boxGeometry args={[6, 0.6, 0.5]} />
         <meshStandardMaterial color="#2D6A4F" roughness={0.2} metalness={0.5} />
       </mesh>
       {/* Windows */}
-      {[...Array(8)].map((_, i) => (
-        <mesh key={i} position={[-2.5 + i * 0.7, 0.1, 0.26]}>
+      {[...Array(6)].map((_, i) => (
+        <mesh key={i} position={[-2 + i * 0.8, 0.1, 0.26]}>
           <boxGeometry args={[0.4, 0.2, 0.01]} />
           <meshStandardMaterial color="#A8E6CF" emissive="#A8E6CF" emissiveIntensity={0.5} />
         </mesh>
       ))}
-      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
     </group>
   );
 }

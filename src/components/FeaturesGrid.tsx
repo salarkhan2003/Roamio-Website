@@ -1,7 +1,5 @@
 import { motion } from 'motion/react';
 import { Map, Route, Wallet, Bot, Users, ShieldCheck, LucideIcon, ArrowRight } from 'lucide-react';
-import { Scene3D } from './3d/Scene3D';
-import { Car } from './3d/Models';
 import { cn } from '../lib/utils';
 
 interface FeatureCardProps {
@@ -73,12 +71,6 @@ const features = [
 export function FeaturesGrid() {
   return (
     <section className="py-32 relative overflow-hidden">
-      {/* Background 3D Car */}
-      <div className="absolute top-1/2 left-0 w-full h-[400px] -translate-y-1/2 opacity-10 pointer-events-none rotate-12">
-        <Scene3D>
-          <Car />
-        </Scene3D>
-      </div>
       <div className="container mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <div className="max-w-2xl">

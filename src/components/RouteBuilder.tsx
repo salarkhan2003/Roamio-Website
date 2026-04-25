@@ -1,7 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
-import { Scene3D } from './3d/Scene3D';
-import { Train, Bus, PhoneMockup } from './3d/Models';
 import { ArrowLeftRight, Navigation } from 'lucide-react';
 import { AppRoutePlanner } from './AppScreens';
 
@@ -62,12 +60,6 @@ export function RouteBuilder() {
         </div>
       </div>
 
-      {/* Bus driving across effect */}
-      <motion.div style={{ x: busX }} className="absolute bottom-20 left-0 w-[400px] h-32 opacity-20 pointer-events-none">
-        <Scene3D>
-          <Bus />
-        </Scene3D>
-      </motion.div>
     </section>
   );
 }

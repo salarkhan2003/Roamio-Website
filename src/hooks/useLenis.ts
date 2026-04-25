@@ -13,14 +13,24 @@ export function useLenis() {
       touchMultiplier: 2,
     });
 
+    lenis.on('scroll', () => {
+      document.body.classList.add('is-scrolling');
+      clearTimeout((window as any).scrollingTimeout);
+      (window as any).scrollingTimeout = setTimeout(() => {
+        document.body.classList.remove('is-scrolling');
+      }, 150);
+    });
+
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

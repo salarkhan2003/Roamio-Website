@@ -1,7 +1,5 @@
 import { motion, useScroll, useTransform } from 'motion/react';
 import { useRef } from 'react';
-import { Scene3D } from './3d/Scene3D';
-import { PhoneMockup } from './3d/Models';
 import { MapPin } from 'lucide-react';
 import { LiveMap } from './LiveMap';
 

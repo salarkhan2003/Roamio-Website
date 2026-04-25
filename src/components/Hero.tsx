@@ -3,9 +3,9 @@ import { Download, PlayCircle, Star, Smartphone, Send, CheckCircle2 } from 'luci
 import { Scene3D } from './3d/Scene3D';
 import { Airplane } from './3d/Models';
 import { LiveMap } from './LiveMap';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 
-const mumbaiRoute: [number, number][] = [
+const MUMBAI_ROUTE: [number, number][] = [
   [18.922, 72.834], // Gateway
   [18.932, 72.834],
   [18.942, 72.824],
@@ -17,6 +17,8 @@ import { AppRoutePlanner, AppFamilySync, AppAICommand } from './AppScreens';
 export function Hero() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+
+  const mumbaiRoute = useMemo(() => MUMBAI_ROUTE, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ export function Hero() {
       
       {/* 3D Background Objects remain but adapted space */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none">
-        <Scene3D>
+        <Scene3D environment="city">
           <group position={[5, 2, -2]} rotation={[0.2, -0.8, 0.1]}>
             <Airplane />
           </group>
@@ -190,22 +192,18 @@ export function Hero() {
              </motion.div>
 
              {/* Phone 2 (Secondary) - AI Command */}
-             <motion.div 
-               initial={{ rotateY: 10, x: 100, opacity: 0 }}
-               animate={{ rotateY: 15, x: 140, opacity: 0.6 }}
-               className="clay-phone absolute z-0 scale-75 sm:scale-80 lg:scale-90 -translate-y-10 hidden sm:block"
+             <div 
+               className="clay-phone absolute z-0 scale-75 sm:scale-80 lg:scale-90 -translate-y-10 hidden sm:block rotate-[15deg] translate-x-[140px] opacity-60"
              >
                 <AppAICommand />
-             </motion.div>
+             </div>
 
              {/* Phone 3 (Background) - Family Sync */}
-             <motion.div 
-               initial={{ rotateY: -30, x: -50, opacity: 0 }}
-               animate={{ rotateY: -25, x: -140, opacity: 0.4 }}
-               className="clay-phone absolute z-0 scale-70 sm:scale-75 lg:scale-80 translate-y-10 hidden lg:block"
+             <div 
+               className="clay-phone absolute z-0 scale-70 sm:scale-75 lg:scale-80 translate-y-10 hidden lg:block -rotate-[25deg] -translate-x-[140px] opacity-40"
              >
                 <AppFamilySync />
-             </motion.div>
+             </div>
           </div>
         </div>
       </div>

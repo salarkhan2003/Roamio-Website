@@ -1,12 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { motion } from 'motion/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Scene3D } from './3d/Scene3D';
-import * as Models from './3d/Models';
 import { AppRoutePlanner } from './AppScreens';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export function WhatIsRoamio() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,12 +32,6 @@ export function WhatIsRoamio() {
         <div className="relative aspect-square glass-panel flex items-center justify-center p-4 bg-charcoal/80 overflow-hidden order-1 md:order-2">
           <div className="clay-phone scale-90 sm:scale-110 relative z-10 shadow-[0_0_100px_rgba(168,230,207,0.15)]">
              <AppRoutePlanner />
-          </div>
-          
-          <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
-             <Scene3D className="w-full h-full">
-                <Models.Car />
-             </Scene3D>
           </div>
         </div>
       </div>

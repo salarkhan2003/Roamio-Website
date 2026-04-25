@@ -1,28 +1,67 @@
-import { ReactNode, Suspense } from 'react';
+import { ReactNode, Suspense, useState, useEffect, useRef, memo } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { Environment, ContactShadows } from '@react-three/drei';
+import { Environment } from '@react-three/drei';
 
 interface SceneProps {
   children: ReactNode;
   className?: string;
+  autoRotate?: boolean;
+  environment?: string;
 }
 
-export function Scene3D({ children, className }: SceneProps) {
+export const Scene3D = memo(({ children, className, environment }: SceneProps) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { 
+        threshold: 0,
+        rootMargin: '200px 0px'
+      }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <Canvas
-      shadows
-      camera={{ position: [0, 0, 5], fov: 45 }}
-      className={className}
-      gl={{ antialias: true, alpha: true }}
-    >
-      <ambientLight intensity={0.5} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={2} castShadow />
-      <pointLight position={[-10, -10, -10]} intensity={1} />
-      <Suspense fallback={null}>
-        {children}
-        <Environment preset="city" />
-      </Suspense>
-      <ContactShadows resolution={1024} scale={10} blur={2} opacity={0.25} far={10} color="#000000" />
-    </Canvas>
+    <div ref={containerRef} className={className + " w-full h-full"}>
+      {isVisible ? (
+        <Canvas
+          shadows={false}
+          dpr={1}
+          camera={{ position: [0, 0, 5], fov: 45 }}
+          className="w-full h-full"
+          frameloop="always"
+          gl={{ 
+            antialias: false,
+            alpha: true,
+            powerPreference: 'high-performance',
+            preserveDrawingBuffer: false,
+            stencil: false,
+            depth: true,
+            precision: 'lowp'
+          }}
+        >
+          <ambientLight intensity={0.5} />
+          <directionalLight position={[5, 5, 5]} intensity={1} />
+          <Suspense fallback={null}>
+            {children}
+            {environment && <Environment preset={environment as any} />}
+          </Suspense>
+        </Canvas>
+      ) : (
+        <div className="w-full h-full bg-transparent" />
+      )}
+    </div>
   );
-}
+});
+
+Scene3D.displayName = 'Scene3D';
